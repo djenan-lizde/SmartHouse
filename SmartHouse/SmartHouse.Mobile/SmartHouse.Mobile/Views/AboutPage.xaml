@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SmartHouse.Mobile.Views.AboutPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Final thesis at the Faculty of Information Technology Mostar, Smart house.
+                   Primarly an NODEMCU project with temperature and humidity sensor (DHT11), 
+                   gas/smoke sensor (MQ2). Mobile application also included where Xamarin.Forms were used. 
+                   The NODEMCU collects data from sensors then the data is stored in a database. 
+                   After collecting data, user can see graphical representation of data. 
+                   This project also include PIR movement sensor that will trigger to lights turn
+                   on in case someone is in front of the house. In case of a fire application will inform user
+                   that something is happening exp. fire starting, gas leak etc."
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
