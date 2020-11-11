@@ -9,8 +9,8 @@
         <StackLayout>
             <Label Text="Final thesis at the Faculty of Information Technology Mostar, Smart house.
                    Primarly an NODEMCU project with temperature and humidity sensor (DHT11), 
-                   gas/smoke sensor (MQ2). Mobile application also included where Xamarin.Forms were used. 
-                   The NODEMCU collects data from sensors then the data is stored in a database. 
+                   gas/smoke sensor (MQ2). This project also includes mobile application where Xamarin.Forms were used. 
+                   The Arduino collects data from sensors and then sends them to NODEMCU and the data is being send to DB. 
                    After collecting data, user can see graphical representation of data. 
                    This project also include PIR movement sensor that will trigger to lights turn
                    on in case someone is in front of the house. In case of a fire application will inform user

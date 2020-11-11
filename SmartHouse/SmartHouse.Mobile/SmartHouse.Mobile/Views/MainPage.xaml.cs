@@ -21,7 +21,7 @@ namespace SmartHouse.Mobile.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Temperature, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Welcome, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)

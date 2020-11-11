@@ -28,9 +28,9 @@
                 <Label Text="To"></Label>
                 <DatePicker Date="{Binding DateTimeTo}" Format="MM/dd/yyyy"></DatePicker>
             </StackLayout>
-            
+
             <StackLayout BackgroundColor="#D5D3DC">
-                <Label Text="BarChart" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                <Label Text="BarChart" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand"/>
                 <forms:ChartView Chart="{Binding ChartLine}" x:Name="Chart1" HeightRequest="400" />
             </StackLayout>
 

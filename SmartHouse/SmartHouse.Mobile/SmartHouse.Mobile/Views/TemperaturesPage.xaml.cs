@@ -1,6 +1,4 @@
 ﻿using SmartHouse.Mobile.ViewModels;
-using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,6 +12,11 @@ namespace SmartHouse.Mobile.Views
         {
             InitializeComponent();
             BindingContext = model = new TemperatureViewModel();
+        }
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            await model.Init();
         }
     }
 }

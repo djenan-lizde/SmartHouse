@@ -1,11 +1,11 @@
 ﻿using Microcharts;
-using Microcharts.Forms;
 using SkiaSharp;
 using SmartHouse.Models;
 using SmartHouse.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -23,7 +23,7 @@ namespace SmartHouse.Mobile.ViewModels
         public DateTime DateTimeFrom { get; set; }
         public DateTime DateTimeTo { get; set; }
 
-        async Task Init()
+        public async Task Init()
         {
             try
             {
@@ -39,10 +39,17 @@ namespace SmartHouse.Mobile.ViewModels
                 var temperatures = await _apiServiceTemperatures.Get<List<Temperature>>(searchObject);
                 if (temperatures.Count > 0)
                 {
-                    TemperatureList.Clear();
+                    entries.Clear();
                     foreach (var item in temperatures)
                     {
-                        TemperatureList.Add(item);
+                        entries.Add(new ChartEntry(item.TemperatureCelsius)
+                        {
+                            Color = SKColor.Parse("#000000"),
+                            TextColor = SKColor.Parse("#a8f4b4"),
+                            ValueLabel = item.TemperatureCelsius.ToString(),
+                            Label = item.TemperatureCelsius.ToString(),
+                            ValueLabelColor = SKColor.Parse("#FF0000")
+                        });
                     }
                 }
             }
@@ -52,37 +59,15 @@ namespace SmartHouse.Mobile.ViewModels
             }
 
         }
-        public ObservableCollection<Temperature> TemperatureList { get; set; } = new ObservableCollection<Temperature>();
-
-        public static readonly List<ChartEntry> entries = new List<ChartEntry>()
-        {
-            //new ChartEntry(200)
-            //{
-            //    Color = SKColor.Parse("#ff80ff"),
-            //    TextColor = SKColor.Parse("#ff80ff"),
-            //    Label="January",
-            //    ValueLabel="200"
-            //},
-            // new ChartEntry(400)
-            //{
-            //    Color = SKColor.Parse("#A8F4B4"),
-            //    TextColor = SKColor.Parse("#A8F4B4"),
-            //    Label="February",
-            //    ValueLabel="400"
-            //},
-            //new ChartEntry(-100)
-            //{
-            //    Color = SKColor.Parse("#B7A8F4"),
-            //    TextColor = SKColor.Parse("#B7A8F4"),
-            //    Label="March",
-            //    ValueLabel="-100"
-            //}
-        };
+        public static readonly List<ChartEntry> entries = new List<ChartEntry>();
         public Chart ChartLine => new LineChart()
-        { 
+        {
             Entries = entries,
             LabelTextSize = 45,
-            LabelOrientation = Orientation.Horizontal
+            LabelOrientation = Orientation.Horizontal,
+            BackgroundColor = SKColors.Transparent,
+            MinValue = 0,
+            MaxValue = 50
         };
     }
 }
