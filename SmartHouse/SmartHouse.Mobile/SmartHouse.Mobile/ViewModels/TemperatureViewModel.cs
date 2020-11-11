@@ -47,7 +47,7 @@ namespace SmartHouse.Mobile.ViewModels
                             Color = SKColor.Parse("#000000"),
                             TextColor = SKColor.Parse("#a8f4b4"),
                             ValueLabel = item.TemperatureCelsius.ToString(),
-                            Label = item.TemperatureCelsius.ToString(),
+                            Label = item.TemperatureCelsius.ToString(),   
                             ValueLabelColor = SKColor.Parse("#FF0000")
                         });
                     }
