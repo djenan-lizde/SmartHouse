@@ -20,15 +20,15 @@ namespace SmartHouse.Api.Controllers
         [HttpGet]
         public IActionResult GetTemperatures()
         {
-            return Ok(_service.Get().ToList());
+            return Ok(_service.Get());
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetLastTemperature(int Id)
+        [HttpGet("CurrentTemperature")]
+        public IActionResult GetLastTemperature()
         {
             try
             {
-                var lastTemperature = _service.Get(Id);
+                var lastTemperature = _service.GetLastTemperature();
                 return Ok(lastTemperature);
             }
             catch (System.Exception)
@@ -48,22 +48,6 @@ namespace SmartHouse.Api.Controllers
             {
                 return StatusCode(400);
             }
-        }
-
-        [HttpGet("Filter")]
-        public IActionResult GetTemperaturesByFilter(TemperatureSearchRequest searchRequest)
-        {
-            var query = _service.Get();
-
-            if (searchRequest.DateFrom.HasValue)
-            {
-                query = query.Where(x => x.DateAdded == searchRequest.DateFrom);
-            }
-            if (searchRequest.DateTo.HasValue)
-            {
-                query = query.Where(x => x.DateAdded == searchRequest.DateTo);
-            }
-            return Ok(query);
         }
     }
 }

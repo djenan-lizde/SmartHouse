@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartHouse.Api.Database;
+using SmartHouse.Models;
 using SmartHouse.Models.Requests;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,7 @@ namespace SmartHouse.Api.Services
     public interface IData<T> where T : class
     {
         IEnumerable<T> Get();
-        T Get(int id);
-        IEnumerable<T> GetByCondition(Expression<Func<T, bool>> predicate);
+        T GetLastTemperature();
         T Insert(T entity);
     }
 
@@ -32,6 +32,11 @@ namespace SmartHouse.Api.Services
             return _entity.AsNoTracking().AsEnumerable();
         }
 
+        public T GetLastTemperature()
+        {
+            return _entity.ToList().LastOrDefault();
+        }
+
         public T Insert(T obj)
         {
             if (obj == null)
@@ -42,16 +47,6 @@ namespace SmartHouse.Api.Services
             var x = _entity.Add(obj);
             _context.SaveChanges();
             return x.Entity;
-        }
-
-        public T Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> GetByCondition(Expression<Func<T, bool>> predicate)
-        {
-            return _entity.Where(predicate).AsEnumerable();
         }
     }
 }

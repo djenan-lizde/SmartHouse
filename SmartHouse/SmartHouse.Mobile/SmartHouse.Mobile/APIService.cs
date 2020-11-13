@@ -20,12 +20,19 @@ namespace SmartHouse.Mobile
         private string _apiUrl = "http://localhost:50821/api"; 
 #endif
 
-        public async Task<T> Get<T>(object search = null)
+        public async Task<T> Get<T>(object search = null, string relativeRoute = null)
         {
             try
             {
                 string url;
-                url = $"{_apiUrl}/{_route}";
+                if (string.IsNullOrEmpty(relativeRoute))
+                {
+                    url = $"{_apiUrl}/{_route}";
+                }
+                else
+                {
+                    url = $"{_apiUrl}/{_route}/{relativeRoute}";
+                }
 
                 if (search != null)
                 {

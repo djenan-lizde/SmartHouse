@@ -22,6 +22,7 @@ namespace SmartHouse.Mobile.Views
             {
                 new HomeMenuItem {Id = MenuItemType.Welcome, Title="Welcome" },
                 new HomeMenuItem {Id = MenuItemType.Temperature, Title="Temperature" },
+                new HomeMenuItem {Id = MenuItemType.CurrentTemperature, Title="Current temperature" },
                 new HomeMenuItem {Id = MenuItemType.About, Title="About" }
             };
 

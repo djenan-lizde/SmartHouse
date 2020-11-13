@@ -36,6 +36,9 @@ namespace SmartHouse.Mobile.Views
                     case (int)MenuItemType.Temperature:
                         MenuPages.Add(id, new NavigationPage(new TemperaturesPage()));
                         break;
+                    case (int)MenuItemType.CurrentTemperature:
+                        MenuPages.Add(id, new NavigationPage(new CurrentTemperaturePage()));
+                        break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;

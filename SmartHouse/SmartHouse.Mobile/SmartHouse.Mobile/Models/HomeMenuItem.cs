@@ -8,6 +8,7 @@ namespace SmartHouse.Mobile.Models
     {
         Welcome,
         Temperature,
+        CurrentTemperature,
         About
     }
     public class HomeMenuItem

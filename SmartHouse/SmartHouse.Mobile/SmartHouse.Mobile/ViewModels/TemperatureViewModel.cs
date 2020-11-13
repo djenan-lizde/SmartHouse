@@ -4,29 +4,49 @@ using SmartHouse.Models;
 using SmartHouse.Models.Requests;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SmartHouse.Mobile.ViewModels
 {
-    public enum Seasons { Spring, Summer, Autumn, Winter }
     public class TemperatureViewModel
     {
         private readonly APIService _apiServiceTemperatures = new APIService("Temperatures");
-        public TemperatureViewModel() { FilterCommand = new Command(async () => await Init()); }
+        public TemperatureViewModel()
+        {
+            FilterCommand = new Command(async () => await Init());
+            CurrentTempCommand = new Command(async () => await CurrentTemp());
+        }
 
         public ICommand FilterCommand { get; set; }
+        public ICommand CurrentTempCommand { get; set; }
 
         public DateTime DateTimeFrom { get; set; }
         public DateTime DateTimeTo { get; set; }
+        public Temperature CurrentTemperature { get; set; }
+
+        public async Task CurrentTemp()
+        {
+            try
+            {
+                CurrentTemperature = await _apiServiceTemperatures.Get<Temperature>(null, "CurrentTemperature");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(ex.Message, "Something went wrong!", "OK");
+            }
+        }
 
         public async Task Init()
         {
             try
             {
+                if (DateTimeTo > DateTimeFrom)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");
+                    return;
+                }
                 var searchObject = new TemperatureSearchRequest();
                 if (DateTimeFrom != null)
                 {
@@ -47,7 +67,7 @@ namespace SmartHouse.Mobile.ViewModels
                             Color = SKColor.Parse("#000000"),
                             TextColor = SKColor.Parse("#a8f4b4"),
                             ValueLabel = item.TemperatureCelsius.ToString(),
-                            Label = item.TemperatureCelsius.ToString(),   
+                            Label = item.TemperatureCelsius.ToString(),
                             ValueLabelColor = SKColor.Parse("#FF0000")
                         });
                     }
@@ -59,6 +79,7 @@ namespace SmartHouse.Mobile.ViewModels
             }
 
         }
+
         public static readonly List<ChartEntry> entries = new List<ChartEntry>();
         public Chart ChartLine => new LineChart()
         {
