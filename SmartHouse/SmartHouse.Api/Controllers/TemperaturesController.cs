@@ -23,6 +23,13 @@ namespace SmartHouse.Api.Controllers
             return Ok(_service.Get());
         }
 
+        [HttpGet("Filter")]
+        public IActionResult GetTemperatures(TemperatureSearchRequest temperatureSearchRequest)
+        {
+            var query = _service.Get();
+            return Ok();
+        }
+
         [HttpGet("CurrentTemperature")]
         public IActionResult GetLastTemperature()
         {

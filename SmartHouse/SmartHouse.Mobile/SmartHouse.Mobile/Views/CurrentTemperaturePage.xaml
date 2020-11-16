@@ -10,10 +10,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Label Text="{Binding CurrentTemperature}" LineBreakMode="NoWrap"></Label>
+            <Label Text="{Binding Temperature}" FontSize="Medium"></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

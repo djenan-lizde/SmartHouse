@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace SmartHouse.Mobile.ViewModels
 {
-    public class TemperatureViewModel
+    public class TemperatureViewModel : BaseViewModel
     {
         private readonly APIService _apiServiceTemperatures = new APIService("Temperatures");
         public TemperatureViewModel()
@@ -24,13 +24,20 @@ namespace SmartHouse.Mobile.ViewModels
 
         public DateTime DateTimeFrom { get; set; }
         public DateTime DateTimeTo { get; set; }
-        public Temperature CurrentTemperature { get; set; }
+
+        string temperature = string.Empty;
+        public string Temperature
+        {
+            get { return temperature; }
+            set { SetProperty(ref temperature, value); }
+        }
 
         public async Task CurrentTemp()
         {
             try
             {
-                CurrentTemperature = await _apiServiceTemperatures.Get<Temperature>(null, "CurrentTemperature");
+                var temp = await _apiServiceTemperatures.Get<Temperature>(null, "CurrentTemperature");
+                Temperature = $"{ temp.TemperatureCelsius } - {temp.TemperatureFahrenheit} - { temp.Humidity }";
             }
             catch (Exception ex)
             {
