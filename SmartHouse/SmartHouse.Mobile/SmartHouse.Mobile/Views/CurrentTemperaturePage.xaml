@@ -10,7 +10,15 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Temperature}" FontSize="Medium"></Label>
+            <StackLayout>
+                <Label Text="Welcome to current temperature section!"
+                HorizontalOptions="CenterAndExpand" FontSize="Medium" TextColor="DarkSlateBlue" Margin="20"/>
+                <Label Text="Current temperature will be refreshed every five minutes." 
+                       HorizontalOptions="CenterAndExpand" FontSize="Medium"></Label>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="{Binding Temperature}" FontSize="Medium"></Label>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

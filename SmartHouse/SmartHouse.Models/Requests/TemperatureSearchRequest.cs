@@ -4,7 +4,8 @@ namespace SmartHouse.Models.Requests
 {
     public class TemperatureSearchRequest
     {
-        public DateTime? DateFrom { get; set; }
-        public DateTime? DateTo { get; set; }
+        public int Day { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
     }
 }

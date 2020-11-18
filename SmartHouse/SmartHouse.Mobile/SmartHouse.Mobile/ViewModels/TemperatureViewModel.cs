@@ -1,9 +1,8 @@
-﻿using Microcharts;
-using SkiaSharp;
-using SmartHouse.Models;
-using SmartHouse.Models.Requests;
+﻿using SmartHouse.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,15 +14,13 @@ namespace SmartHouse.Mobile.ViewModels
         private readonly APIService _apiServiceTemperatures = new APIService("Temperatures");
         public TemperatureViewModel()
         {
-            FilterCommand = new Command(async () => await Init());
             CurrentTempCommand = new Command(async () => await CurrentTemp());
+            DateTimeFrom = DateTime.Now;
         }
 
-        public ICommand FilterCommand { get; set; }
         public ICommand CurrentTempCommand { get; set; }
 
         public DateTime DateTimeFrom { get; set; }
-        public DateTime DateTimeTo { get; set; }
 
         string temperature = string.Empty;
         public string Temperature
@@ -37,7 +34,8 @@ namespace SmartHouse.Mobile.ViewModels
             try
             {
                 var temp = await _apiServiceTemperatures.Get<Temperature>(null, "CurrentTemperature");
-                Temperature = $"{ temp.TemperatureCelsius } - {temp.TemperatureFahrenheit} - { temp.Humidity }";
+                Temperature = $"{temp.TemperatureCelsius}°C - {temp.TemperatureFahrenheit}°F - {temp.Humidity}% - " +
+                    $"{temp.DateAdded}";
             }
             catch (Exception ex)
             {
@@ -45,57 +43,47 @@ namespace SmartHouse.Mobile.ViewModels
             }
         }
 
-        public async Task Init()
+        public async Task Init(int day = 1, int month = 1, int year = 2018)
         {
             try
             {
-                if (DateTimeTo > DateTimeFrom)
+                Temperatures.Clear();
+                if (DateTimeFrom > DateTime.Now)
                 {
                     await Application.Current.MainPage.DisplayAlert("Error", "Something went wrong!", "OK");
                     return;
                 }
-                var searchObject = new TemperatureSearchRequest();
+                var temperatures = await _apiServiceTemperatures.Get<List<Temperature>>();
+
                 if (DateTimeFrom != null)
                 {
-                    searchObject.DateFrom = DateTimeFrom;
+                    temperatures = temperatures.Where(x => x.DateAdded.Day == DateTimeFrom.Day
+                             && x.DateAdded.Month == DateTimeFrom.Month && x.DateAdded.Year == DateTimeFrom.Year).ToList();
                 }
-                if (DateTimeTo != null)
-                {
-                    searchObject.DateTo = DateTimeTo;
-                }
-                var temperatures = await _apiServiceTemperatures.Get<List<Temperature>>(searchObject);
+
                 if (temperatures.Count > 0)
                 {
-                    entries.Clear();
                     foreach (var item in temperatures)
                     {
-                        entries.Add(new ChartEntry(item.TemperatureCelsius)
+                        Temperatures.Add(new Temperature
                         {
-                            Color = SKColor.Parse("#000000"),
-                            TextColor = SKColor.Parse("#a8f4b4"),
-                            ValueLabel = item.TemperatureCelsius.ToString(),
-                            Label = item.TemperatureCelsius.ToString(),
-                            ValueLabelColor = SKColor.Parse("#FF0000")
+                            DateAdded = item.DateAdded,
+                            HeatIndex = item.HeatIndex,
+                            Humidity = item.Humidity,
+                            Id = item.Id,
+                            TemperatureCelsius = item.TemperatureCelsius,
+                            TemperatureFahrenheit = item.TemperatureFahrenheit
                         });
-                    }
+                    };
                 }
             }
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert(ex.Message, "Something went wrong!", "OK");
             }
-
         }
 
-        public static readonly List<ChartEntry> entries = new List<ChartEntry>();
-        public Chart ChartLine => new LineChart()
-        {
-            Entries = entries,
-            LabelTextSize = 45,
-            LabelOrientation = Orientation.Horizontal,
-            BackgroundColor = SKColors.Transparent,
-            MinValue = 0,
-            MaxValue = 50
-        };
+        public ObservableCollection<Temperature> Temperatures { get; set; } = new ObservableCollection<Temperature>();
+
     }
 }

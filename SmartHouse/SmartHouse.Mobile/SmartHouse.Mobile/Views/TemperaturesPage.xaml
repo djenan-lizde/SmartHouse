@@ -4,7 +4,6 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:SmartHouse.Mobile.ViewModels"
              mc:Ignorable="d"
-             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              x:Class="SmartHouse.Mobile.Views.TemperaturesPage">
 
     <ContentPage.BindingContext>
@@ -21,24 +20,42 @@
             
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label Text="From"></Label>
-                <DatePicker Date="{Binding DateTimeFrom}" Format="MM/dd/yyyy"></DatePicker>
+                <DatePicker Date="{Binding DateTimeFrom}" MinimumDate="01/01/2018"  Format="MM/dd/yyyy" DateSelected="DatePicker_DateSelected"></DatePicker>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Label Text="To"></Label>
-                <DatePicker Date="{Binding DateTimeTo}" Format="MM/dd/yyyy"></DatePicker>
-            </StackLayout>
-
-            <StackLayout BackgroundColor="#D5D3DC">
-                <Label Text="BarChart" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand"/>
-                <forms:ChartView Chart="{Binding ChartLine}" x:Name="Chart1" HeightRequest="400" />
-            </StackLayout>
-
-            <StackLayout>
-                <Button Command="{Binding FilterCommand}" Text="Refresh" 
-                        BackgroundColor="RoyalBlue" TextColor="White"></Button>
-            </StackLayout>
-            
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Start" RowSpacing="0" BackgroundColor="LightCoral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Text="Temperature celsius - °C" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="1" Text="Temperature fahrenheit - °F" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+                <Label Grid.Column="2" Text="Humidity" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="White"/>
+            </Grid>
+            <ListView ItemsSource="{Binding Temperatures}" HasUnevenRows="true" HeightRequest="200" SeparatorVisibility="None" BackgroundColor="WhiteSmoke">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid Margin="10" Padding="10" RowSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Margin="0" Text="{Binding TemperatureCelsius}" HorizontalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Margin="0" Text="{Binding TemperatureFahrenheit}" HorizontalOptions="CenterAndExpand" />
+                                    <Label Grid.Column="2" Margin="0" Text="{Binding Humidity}" HorizontalOptions="CenterAndExpand" />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

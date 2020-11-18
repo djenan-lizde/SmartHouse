@@ -1,4 +1,5 @@
 ﻿using SmartHouse.Mobile.ViewModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +18,12 @@ namespace SmartHouse.Mobile.Views
         {
             base.OnAppearing();
             await model.Init();
+        }
+
+        private async void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var item = e.NewDate;
+            await model.Init(item.Day, item.Month, item.Year);
         }
     }
 }

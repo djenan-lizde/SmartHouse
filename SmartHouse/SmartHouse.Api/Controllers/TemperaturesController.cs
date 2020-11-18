@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models;
-using SmartHouse.Models.Requests;
 
 namespace SmartHouse.Api.Controllers
 {
@@ -23,12 +21,13 @@ namespace SmartHouse.Api.Controllers
             return Ok(_service.Get());
         }
 
-        [HttpGet("Filter")]
-        public IActionResult GetTemperatures(TemperatureSearchRequest temperatureSearchRequest)
-        {
-            var query = _service.Get();
-            return Ok();
-        }
+        //[HttpGet("Filter")]
+        //public IActionResult GetTemperaturesCondition(TemperatureSearchRequest temperatureSearchRequest)
+        //{
+        //    var query = _service.GetByCondition(x => x.DateAdded.Day == temperatureSearchRequest.Day
+        //        && x.DateAdded.Month == temperatureSearchRequest.Month && x.DateAdded.Year == temperatureSearchRequest.Year);
+        //    return Ok(query);
+        //}
 
         [HttpGet("CurrentTemperature")]
         public IActionResult GetLastTemperature()

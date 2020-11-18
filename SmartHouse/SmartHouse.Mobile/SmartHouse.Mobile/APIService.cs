@@ -33,7 +33,6 @@ namespace SmartHouse.Mobile
                 {
                     url = $"{_apiUrl}/{_route}/{relativeRoute}";
                 }
-
                 if (search != null)
                 {
                     url += "?";
@@ -51,6 +50,5 @@ namespace SmartHouse.Mobile
                 throw;
             }
         }
-
     }
 }
