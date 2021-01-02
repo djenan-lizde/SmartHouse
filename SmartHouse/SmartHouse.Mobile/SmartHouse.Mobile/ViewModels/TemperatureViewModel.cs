@@ -1,4 +1,4 @@
-﻿using SmartHouse.Models;
+﻿using SmartHouse.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartHouse.Models;
+using SmartHouse.Models.Models;
 
 namespace SmartHouse.Api.Database
 {
@@ -9,7 +9,10 @@ namespace SmartHouse.Api.Database
             : base(options)
         {
         }
-        public DbSet<Temperature> Temperature { get; set; }
+        public DbSet<Temperature> Temperatures { get; set; }
+        public DbSet<HomeAddress> HomeAddresses { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<City> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

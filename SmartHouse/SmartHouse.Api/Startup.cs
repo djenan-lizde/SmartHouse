@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using SmartHouse.Api.Configuration;
 using SmartHouse.Api.Database;
-using SmartHouse.Models;
 using SmartHouse.Api.Services;
+using SmartHouse.Models.Models;
 
 namespace SmartHouse.Api
 {
@@ -34,8 +29,11 @@ namespace SmartHouse.Api
                  options.UseSqlServer(
                  Configuration.GetConnectionString("SmartHouse")));
 
+            services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
+
             //services
             services.AddScoped<IData<Temperature>, Data<Temperature>>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

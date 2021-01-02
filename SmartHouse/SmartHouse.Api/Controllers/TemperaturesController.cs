@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
-using SmartHouse.Models;
+using SmartHouse.Models.Models;
 
 namespace SmartHouse.Api.Controllers
 {
