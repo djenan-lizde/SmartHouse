@@ -36,6 +36,7 @@ namespace SmartHouse.Api
                  Configuration.GetConnectionString("SmartHouse")));
 
             services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
+            services.Configure<TwilioConfig>(Configuration.GetSection(nameof(TwilioConfig)));
 
             services.AddAuthentication(options =>
             {
@@ -74,6 +75,7 @@ namespace SmartHouse.Api
             //services
             services.AddScoped<IData<Temperature>, Data<Temperature>>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISmsService, SmsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
