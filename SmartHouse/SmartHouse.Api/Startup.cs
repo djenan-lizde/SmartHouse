@@ -73,9 +73,9 @@ namespace SmartHouse.Api
                 });
 
             //services
-            services.AddScoped<IData<Temperature>, Data<Temperature>>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISmsService, SmsService>();
+            services.AddScoped<ITemperatureService, TemperatureService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

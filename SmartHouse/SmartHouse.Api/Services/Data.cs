@@ -11,7 +11,6 @@ namespace SmartHouse.Api.Services
     {
         IEnumerable<T> Get();
         List<T> GetByCondition(Expression<Func<T, bool>> predicate);
-        T GetLastTemperature();
         T Insert(T entity);
     }
 
@@ -30,14 +29,12 @@ namespace SmartHouse.Api.Services
         {
             return _entity.AsNoTracking().AsEnumerable();
         }
-        public T GetLastTemperature()
-        {
-            return _entity.ToList().LastOrDefault();
-        }
+
         public List<T> GetByCondition(Expression<Func<T, bool>> predicate)
         {
             return _entity.Where(predicate).ToList();
         }
+
         public T Insert(T obj)
         {
             if (obj == null)
