@@ -12,6 +12,7 @@ namespace SmartHouse.Api.Services
         IEnumerable<T> Get();
         List<T> GetByCondition(Expression<Func<T, bool>> predicate);
         T Insert(T entity);
+        T GetLastT();
     }
 
     public class Data<T> : IData<T> where T : class
@@ -27,12 +28,32 @@ namespace SmartHouse.Api.Services
 
         public IEnumerable<T> Get()
         {
-            return _entity.AsNoTracking().AsEnumerable();
+            var obj = _entity.AsNoTracking().AsEnumerable();
+            if (obj == null)
+            {
+                throw new ArgumentNullException("Entity");
+            }
+            return obj;
         }
 
         public List<T> GetByCondition(Expression<Func<T, bool>> predicate)
         {
-            return _entity.Where(predicate).ToList();
+            var obj = _entity.Where(predicate).ToList();
+            if (obj == null)
+            {
+                throw new ArgumentNullException("Entity");
+            }
+            return obj;
+        }
+
+        public T GetLastT()
+        {
+            var obj = _entity.ToList().LastOrDefault();
+            if (obj == null)
+            {
+                throw new ArgumentNullException("Entity");
+            }
+            return obj;
         }
 
         public T Insert(T obj)

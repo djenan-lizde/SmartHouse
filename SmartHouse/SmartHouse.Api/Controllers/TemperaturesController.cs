@@ -8,17 +8,17 @@ namespace SmartHouse.Api.Controllers
     [ApiController]
     public class TemperaturesController : ControllerBase
     {
-        private readonly IData<Temperature> _service;
+        private readonly ITemperatureService _temperatureService;
 
-        public TemperaturesController(IData<Temperature> service)
+        public TemperaturesController(ITemperatureService temperatureService)
         {
-            _service = service;
+            _temperatureService = temperatureService;
         }
 
         [HttpGet]
         public IActionResult GetTemperatures()
         {
-            return Ok(_service.Get());
+            return Ok(_temperatureService.Get());
         }
 
         //[HttpGet("Filter")]
@@ -34,9 +34,9 @@ namespace SmartHouse.Api.Controllers
         {
             try
             {
-                //var lastTemperature = _service.GetLastTemperature();
-                //return Ok(lastTemperature);
-                return null;
+                var lastTemperature = _temperatureService.GetLastT();
+                return Ok(lastTemperature);
+
             }
             catch (System.Exception)
             {
@@ -49,7 +49,7 @@ namespace SmartHouse.Api.Controllers
         {
             try
             {
-                return Ok(_service.Insert(temperature));
+                return Ok(_temperatureService.Insert(temperature));
             }
             catch (System.Exception)
             {
