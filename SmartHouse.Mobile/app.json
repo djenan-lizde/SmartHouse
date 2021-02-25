@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SmartHouse.Mobile",
-    "slug": "SmartHouse.Mobile",
+    "slug": "SmartHouse_Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
