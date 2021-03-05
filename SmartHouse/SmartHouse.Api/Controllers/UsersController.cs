@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
@@ -48,7 +49,7 @@ namespace SmartHouse.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Login(UserLoginModel model)
+        public IActionResult Login([FromBody] UserLoginModel model)
         {
             var user = _userService.Authenticate(model);
 

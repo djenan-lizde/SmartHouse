@@ -5,21 +5,46 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Button,
-  Alert
+  ActivityIndicator
 } from "react-native";
+import axios from "axios";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const LoginForm = () => {
   const [enteredUsername, setUsername] = useState("");
   const [enteredPassword, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   const loginHandler = () => {
-    Alert.alert("IDe gas")
+    setLoading(true);
+    axios
+      .post("http://e55652a19ec2.ngrok.io/api/users/login", {
+        username: enteredUsername,
+        password: enteredPassword,
+      })
+      .then((response) => 
+        setAuthorized(true)
+        
+      )
+      .catch((error) => console.log(error));
   };
+
+  const usernameHandler = (val) =>{
+    setLoading(false);
+    setUsername(val)
+  }
+
+  const passwordHandler = (val) =>{
+    setLoading(false);
+    setPassword(val)
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      {loading ? <ActivityIndicator size="large" color="#00ff00"/>: null}
       <TextInput
-        onChangeText={(val) => setUsername(val)}
+        onChangeText={(val) => usernameHandler(val)}
         value={enteredUsername}
         placeholder="username"
         placeholderTextColor="rgba(255,255,255,0.7)"
@@ -29,7 +54,7 @@ const LoginForm = () => {
         style={styles.input}
       />
       <TextInput
-        onChangeText={(val) => setPassword(val)}
+        onChangeText={(val) => passwordHandler(val)}
         value={enteredPassword}
         placeholder="password"
         placeholderTextColor="rgba(255,255,255,0.7)"
@@ -39,12 +64,17 @@ const LoginForm = () => {
       />
 
       <TouchableOpacity style={styles.buttonContainer}>
-        <Button style={styles.buttonText} onPress={() => loginHandler()} title="Login">Login</Button>
+        <Button
+          style={styles.buttonText}
+          onPress={() => loginHandler()}
+          title="Login"
+        >
+          Login
+        </Button>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -64,6 +94,9 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#FFFFFF",
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });
 
