@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-const DetailsScreen = ({navigation}) => {
+const DetailsScreen = () => {
     return (
       <View style={styles.container}>
         <Text>Details Screen</Text>

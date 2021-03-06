@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
     return (
       <View style={styles.container}>
         <Text style={{color: "red"}}>Home Screen</Text>

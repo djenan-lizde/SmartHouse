@@ -1,51 +1,17 @@
-import React, { useState } from "react";
+import React  from "react";
 import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
-  Button,
-  ActivityIndicator
+  Button
 } from "react-native";
-import axios from "axios";
-import Spinner from 'react-native-loading-spinner-overlay';
 
-const LoginForm = () => {
-  const [enteredUsername, setUsername] = useState("");
-  const [enteredPassword, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [authorized, setAuthorized] = useState(false);
-
-  const loginHandler = () => {
-    setLoading(true);
-    axios
-      .post("http://e55652a19ec2.ngrok.io/api/users/login", {
-        username: enteredUsername,
-        password: enteredPassword,
-      })
-      .then((response) => 
-        setAuthorized(true)
-        
-      )
-      .catch((error) => console.log(error));
-  };
-
-  const usernameHandler = (val) =>{
-    setLoading(false);
-    setUsername(val)
-  }
-
-  const passwordHandler = (val) =>{
-    setLoading(false);
-    setPassword(val)
-  }
-
+const LoginForm = (props) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      {loading ? <ActivityIndicator size="large" color="#00ff00"/>: null}
       <TextInput
-        onChangeText={(val) => usernameHandler(val)}
-        value={enteredUsername}
+        onChangeText={(val) => props.usernameChange(val)}
         placeholder="username"
         placeholderTextColor="rgba(255,255,255,0.7)"
         returnKeyType="next"
@@ -54,11 +20,11 @@ const LoginForm = () => {
         style={styles.input}
       />
       <TextInput
-        onChangeText={(val) => passwordHandler(val)}
-        value={enteredPassword}
+        onChangeText={(val) =>props.passwordChange(val)}
         placeholder="password"
         placeholderTextColor="rgba(255,255,255,0.7)"
         returnKeyType="go"
+        autoCapitalize="none"
         secureTextEntry
         style={styles.input}
       />
@@ -66,7 +32,7 @@ const LoginForm = () => {
       <TouchableOpacity style={styles.buttonContainer}>
         <Button
           style={styles.buttonText}
-          onPress={() => loginHandler()}
+          onPress={props.login}
           title="Login"
         >
           Login
