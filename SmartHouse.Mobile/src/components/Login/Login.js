@@ -1,17 +1,18 @@
 import React from "react";
-import { View, StyleSheet, Image, SafeAreaView, ActivityIndicator} from "react-native";
+import { View, StyleSheet, Image, SafeAreaView, ActivityIndicator, Text} from "react-native";
 import LoginForm from "./LoginForm";
 
 const Login = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
+        <Text style={styles.header}>Smart house</Text>
         <Image
           style={styles.logo}
           source={require("../../../assets/house.jpg")}
         />
       </View>
-      {props.loading ? <ActivityIndicator size="large" color="green" /> : null}
+      {props.loading ? <ActivityIndicator size="large" color="white" /> : null}
       <View style={styles.formContainer}>
         <LoginForm
           usernameChange={props.usernameChange}
@@ -37,6 +38,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  formContainer:{
+    marginBottom:30
+  },
+  header:{
+    fontSize:35,
+    color:"#FFF",
+    marginBottom:10
+  }
 });
 
 export default Login;

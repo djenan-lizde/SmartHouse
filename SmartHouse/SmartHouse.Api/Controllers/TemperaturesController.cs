@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
+using SmartHouse.Models.Requests;
+using System;
 
 namespace SmartHouse.Api.Controllers
 {
@@ -21,39 +23,45 @@ namespace SmartHouse.Api.Controllers
             return Ok(_temperatureService.Get());
         }
 
-        //[HttpGet("Filter")]
-        //public IActionResult GetTemperaturesCondition(TemperatureSearchRequest temperatureSearchRequest)
-        //{
-        //    var query = _service.GetByCondition(x => x.DateAdded.Day == temperatureSearchRequest.Day
-        //        && x.DateAdded.Month == temperatureSearchRequest.Month && x.DateAdded.Year == temperatureSearchRequest.Year);
-        //    return Ok(query);
-        //}
+        [HttpGet("filter")]
+        public IActionResult GetTemperaturesCondition([FromQuery] TemperatureSearchRequest temperatureSearchRequest)
+        {
+            try
+            {
+                var query = _temperatureService.GetByCondition(x => x.DateAdded.Day == temperatureSearchRequest.Day
+                    && x.DateAdded.Month == temperatureSearchRequest.Month && x.DateAdded.Year == temperatureSearchRequest.Year);
+                return Ok(query);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
 
-        [HttpGet("currenttemperature")]
+        [HttpGet("current")]
         public IActionResult GetLastTemperature()
         {
             try
             {
                 var lastTemperature = _temperatureService.GetLastT();
                 return Ok(lastTemperature);
-
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return StatusCode(500);
             }
         }
 
         [HttpPost]
-        public IActionResult PostTemeprature(Temperature temperature)
+        public IActionResult PostTemeprature([FromBody] Temperature temperature)
         {
             try
             {
                 return Ok(_temperatureService.Insert(temperature));
             }
-            catch (System.Exception)
+            catch (Exception)
             {
-                return StatusCode(400);
+                return StatusCode(500);
             }
         }
     }

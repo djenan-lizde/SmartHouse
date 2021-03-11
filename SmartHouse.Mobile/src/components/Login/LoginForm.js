@@ -49,21 +49,18 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     backgroundColor: "rgba(255,255,255,0.2)",
-    marginBottom: 10,
+    marginBottom: 20,
     color: "#FFF",
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   buttonContainer: {
     backgroundColor: "#2980b9",
-    paddingVertical: 15,
+    borderColor:"#000000"
   },
   buttonText: {
     textAlign: "center",
     color: "#FFFFFF",
-  },
-  spinnerTextStyle: {
-    color: "#FFF",
-  },
+  }
 });
 
 export default LoginForm;

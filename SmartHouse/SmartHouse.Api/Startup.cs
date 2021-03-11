@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using SmartHouse.Api.Configuration;
 using SmartHouse.Api.Database;
 using SmartHouse.Api.Services;
-using SmartHouse.Models.Models;
 using System;
 using System.Text;
 

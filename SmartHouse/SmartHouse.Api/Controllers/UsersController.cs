@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
@@ -23,7 +22,7 @@ namespace SmartHouse.Api.Controllers
 
         [HttpPost("registration")]
         [AllowAnonymous]
-        public User UserRegister(UserRegistration userRequest)
+        public User UserRegister([FromBody] UserRegistration userRequest)
         {
             var obj = _userService.RegisterUser(userRequest);
             User user = new User
@@ -55,7 +54,7 @@ namespace SmartHouse.Api.Controllers
 
             if (user == null)
             {
-                return Unauthorized(new { message = "Invalid username or password" });
+                return BadRequest(new { message = "Invalid username or password" });
             }
 
             return Ok(user);

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import DetailsScreen from "./screens/DetailsScreen";
+import AboutUsScreen from "./screens/AboutUsScreen";
 import HomeScreen from "./screens/HomeScreen";
+import TemperatureScreen from "./screens/TemperatureScreen";
 import Login from "./src/components/Login/Login";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const HomeStack = createStackNavigator();
-const DetailsStack = createStackNavigator();
+const AboutUsStack = createStackNavigator();
+const TemperatureStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const HomeStackScreen = ({ navigation }) => (
@@ -41,12 +42,12 @@ const HomeStackScreen = ({ navigation }) => (
         ),
       }}
     />
-    <HomeStack.Screen name="Details" component={DetailsScreen} />
+    <HomeStack.Screen name="Temperature" component={TemperatureScreen} />
   </HomeStack.Navigator>
 );
 
-const DetailsStackScreen = ({ navigation }) => (
-  <DetailsStack.Navigator
+const AboutUsStackScreen = ({ navigation }) => (
+  <AboutUsStack.Navigator
     screenOptions={{
       headerStyle: {
         backgroundColor: "#3498db",
@@ -57,9 +58,9 @@ const DetailsStackScreen = ({ navigation }) => (
       },
     }}
   >
-    <DetailsStack.Screen
-      name="Details"
-      component={DetailsScreen}
+    <AboutUsStack.Screen
+      name="About us"
+      component={AboutUsScreen}
       options={{
         title: "Overview",
         headerLeft: () => (
@@ -72,7 +73,37 @@ const DetailsStackScreen = ({ navigation }) => (
         ),
       }}
     />
-  </DetailsStack.Navigator>
+  </AboutUsStack.Navigator>
+);
+
+const TemperatureStackScreen = ({ navigation }) => (
+  <TemperatureStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "#3498db",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <TemperatureStack.Screen
+      name="Temperature"
+      component={TemperatureScreen}
+      options={{
+        title: "Overview",
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={25}
+            backgroundColor="#3498db"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+  </TemperatureStack.Navigator>
 );
 
 const App = () => {
@@ -84,12 +115,11 @@ const App = () => {
   const loginHandler = () => {
     setLoading(true);
     axios
-      .post("http://257912c31eed.ngrok.io/api/users/login", {
+      .post("http://cfc0f7aca710.ngrok.io/api/users/login", {
         username: enteredUsername,
         password: enteredPassword,
       })
       .then((response) => {
-        console.log(response.data.token);
         setAuthorized(true);
         setLoading(false);
         navigation.navigate("HomeScreen");
@@ -113,7 +143,8 @@ const App = () => {
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="Home">
             <Drawer.Screen name="Home" component={HomeStackScreen} />
-            <Drawer.Screen name="Details" component={DetailsStackScreen} />
+            <Drawer.Screen name="Temperature" component={TemperatureStackScreen}/>
+            <Drawer.Screen name="About us" component={AboutUsStackScreen} />
           </Drawer.Navigator>
         </NavigationContainer>
       ) : (
