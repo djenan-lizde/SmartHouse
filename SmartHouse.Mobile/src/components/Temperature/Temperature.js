@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ActivityIndicator,
   SafeAreaView,
@@ -25,8 +24,7 @@ export default Temperature;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "flex-end",
+    flex: 1
   },
   formContainer: {
     marginBottom: 30,

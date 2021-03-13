@@ -7,12 +7,14 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import AboutUsScreen from "./screens/AboutUsScreen";
 import HomeScreen from "./screens/HomeScreen";
 import TemperatureScreen from "./screens/TemperatureScreen";
+import PhotoScreen from "./screens/PhotoScreen";
 import Login from "./src/components/Login/Login";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const HomeStack = createStackNavigator();
 const AboutUsStack = createStackNavigator();
 const TemperatureStack = createStackNavigator();
+const PhotoStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const HomeStackScreen = ({ navigation }) => (
@@ -76,6 +78,36 @@ const AboutUsStackScreen = ({ navigation }) => (
   </AboutUsStack.Navigator>
 );
 
+const PhotoStackScreen = ({ navigation }) => (
+  <PhotoStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "#3498db",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <PhotoStack.Screen
+      name="Photos"
+      component={PhotoScreen}
+      options={{
+        title: "Overview",
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={25}
+            backgroundColor="#3498db"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+  </PhotoStack.Navigator>
+);
+
 const TemperatureStackScreen = ({ navigation }) => (
   <TemperatureStack.Navigator
     screenOptions={{
@@ -115,7 +147,7 @@ const App = () => {
   const loginHandler = () => {
     setLoading(true);
     axios
-      .post("http://cfc0f7aca710.ngrok.io/api/users/login", {
+      .post("http://b00667dd621f.ngrok.io/api/users/login", {
         username: enteredUsername,
         password: enteredPassword,
       })
@@ -144,6 +176,7 @@ const App = () => {
           <Drawer.Navigator initialRouteName="Home">
             <Drawer.Screen name="Home" component={HomeStackScreen} />
             <Drawer.Screen name="Temperature" component={TemperatureStackScreen}/>
+            <Drawer.Screen name="Photos" component={PhotoStackScreen} />
             <Drawer.Screen name="About us" component={AboutUsStackScreen} />
           </Drawer.Navigator>
         </NavigationContainer>

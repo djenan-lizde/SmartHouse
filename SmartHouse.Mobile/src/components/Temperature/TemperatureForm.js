@@ -4,25 +4,33 @@ import {
   TouchableOpacity,
   Button,
   KeyboardAvoidingView,
+  View,
+  Text,
 } from "react-native";
 import axios from "axios";
 import DateTimePicker from "@react-native-community/datetimepicker";
-const queryString = require('query-string');
 
 const TemperatureForm = () => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
+  const [showTemp, setShowTemp] = useState(false);
+  const [avgCelTemp, setAvgCelTemp] = useState();
+  const [avgFahTemp, setAvgFahTemp] = useState();
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
+    setDate(selectedDate);
     setShow(false);
-    var nesto = queryString.stringify(currentDate);
-    console.log(nesto);
+    console.log(date);
     axios
-      .get(`http://cfc0f7aca710.ngrok.io/api/temperatures/filter`)
+      .get(
+        "http://b00667dd621f.ngrok.io/api/temperatures/filter/" +
+          date.toDateString()
+      )
       .then((response) => {
         console.log(response.data);
+        setAvgCelTemp(response.data.celAvgTemperature);
+        setAvgFahTemp(response.data.fahAvgTemperature);
+        setShowTemp(true);
       })
       .catch((error) => console.log(error));
   };
@@ -41,6 +49,12 @@ const TemperatureForm = () => {
           display="default"
           onChange={onChange}
         />
+      ) : null}
+      {showTemp ? (
+        <View style={styles.tempContainer}>
+          <Text>Average temperature celsius: {avgCelTemp}°C</Text>
+          <Text>Average temperature fahrenheit: {avgFahTemp}°F</Text>
+        </View>
       ) : null}
       <TouchableOpacity style={styles.buttonContainer}>
         <Button
@@ -68,5 +82,9 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#FFFFFF",
+  },
+  tempContainer: {
+    marginBottom:400,
+    fontSize:20
   },
 });

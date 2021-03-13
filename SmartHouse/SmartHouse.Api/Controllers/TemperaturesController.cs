@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
-using SmartHouse.Models.Requests;
+using SmartHouse.Models.Responses;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartHouse.Api.Controllers
 {
@@ -23,14 +25,28 @@ namespace SmartHouse.Api.Controllers
             return Ok(_temperatureService.Get());
         }
 
-        [HttpGet("filter")]
-        public IActionResult GetTemperaturesCondition([FromQuery] TemperatureSearchRequest temperatureSearchRequest)
+        [HttpGet("filter/{date}")]
+        public IActionResult GetTemperaturesCondition([FromRoute] DateTime date)
         {
             try
             {
-                var query = _temperatureService.GetByCondition(x => x.DateAdded.Day == temperatureSearchRequest.Day
-                    && x.DateAdded.Month == temperatureSearchRequest.Month && x.DateAdded.Year == temperatureSearchRequest.Year);
-                return Ok(query);
+                var query = _temperatureService.GetByCondition(x => x.DateAdded.Day == date.Day
+                    && x.DateAdded.Month == date.Month && x.DateAdded.Year == date.Year);
+
+                TemperatureResult temperatureResult = new TemperatureResult
+                {
+                    Temperatures = new List<Temperature>()
+                };
+
+                foreach (var item in query)
+                {
+                    temperatureResult.Temperatures.Add(item);
+                }
+
+                temperatureResult.CelAvgTemperature = query.Average(x => x.TemperatureCelsius);
+                temperatureResult.FahAvgTemperature = query.Average(x => x.TemperatureFahrenheit);
+
+                return Ok(temperatureResult);
             }
             catch (Exception)
             {
