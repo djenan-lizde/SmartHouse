@@ -59,8 +59,7 @@ namespace SmartHouse.Api.Controllers
         {
             try
             {
-                var lastTemperature = _temperatureService.GetLastT();
-                return Ok(lastTemperature);
+                return Ok(_temperatureService.GetLastT());
             }
             catch (Exception)
             {

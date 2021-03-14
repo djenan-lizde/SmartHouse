@@ -10,7 +10,7 @@ namespace SmartHouse.Api.Services
     public interface IData<T> where T : class
     {
         IEnumerable<T> Get();
-        List<T> GetByCondition(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> GetByCondition(Expression<Func<T, bool>> predicate);
         T Insert(T entity);
         T GetLastT();
     }
@@ -36,14 +36,9 @@ namespace SmartHouse.Api.Services
             return obj;
         }
 
-        public List<T> GetByCondition(Expression<Func<T, bool>> predicate)
+        public IEnumerable<T> GetByCondition(Expression<Func<T, bool>> predicate)
         {
-            var obj = _entity.Where(predicate).ToList();
-            if (obj == null)
-            {
-                throw new ArgumentNullException("Entity");
-            }
-            return obj;
+            return _entity.Where(predicate).AsEnumerable();
         }
 
         public T GetLastT()

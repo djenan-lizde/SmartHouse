@@ -33,7 +33,7 @@ const HomeStackScreen = ({ navigation }) => (
       name="Home"
       component={HomeScreen}
       options={{
-        title: "Overview",
+        title: "Smart house",
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -64,7 +64,7 @@ const AboutUsStackScreen = ({ navigation }) => (
       name="About us"
       component={AboutUsScreen}
       options={{
-        title: "Overview",
+        title: "Smart house",
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -94,7 +94,7 @@ const PhotoStackScreen = ({ navigation }) => (
       name="Photos"
       component={PhotoScreen}
       options={{
-        title: "Overview",
+        title: "Smart house",
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -124,7 +124,7 @@ const TemperatureStackScreen = ({ navigation }) => (
       name="Temperature"
       component={TemperatureScreen}
       options={{
-        title: "Overview",
+        title: "Smart house",
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -147,7 +147,7 @@ const App = () => {
   const loginHandler = () => {
     setLoading(true);
     axios
-      .post("http://b00667dd621f.ngrok.io/api/users/login", {
+      .post("http://8622f7245f6e.ngrok.io/api/users/login", {
         username: enteredUsername,
         password: enteredPassword,
       })
