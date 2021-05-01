@@ -19,53 +19,6 @@ namespace SmartHouse.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SmartHouse.Models.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("SmartHouse.Models.Models.HomeAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("HomeAddresses");
-                });
-
             modelBuilder.Entity("SmartHouse.Models.Models.Temperature", b =>
                 {
                     b.Property<int>("Id")
@@ -79,9 +32,6 @@ namespace SmartHouse.Api.Migrations
                     b.Property<int>("HeatIndex")
                         .HasColumnType("int");
 
-                    b.Property<int>("HomeAddressId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Humidity")
                         .HasColumnType("int");
 
@@ -92,8 +42,6 @@ namespace SmartHouse.Api.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HomeAddressId");
 
                     b.ToTable("Temperatures");
                 });
@@ -137,30 +85,6 @@ namespace SmartHouse.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("SmartHouse.Models.Models.HomeAddress", b =>
-                {
-                    b.HasOne("SmartHouse.Models.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SmartHouse.Models.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SmartHouse.Models.Models.Temperature", b =>
-                {
-                    b.HasOne("SmartHouse.Models.Models.HomeAddress", "HomeAddress")
-                        .WithMany()
-                        .HasForeignKey("HomeAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

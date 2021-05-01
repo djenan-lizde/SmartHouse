@@ -29,7 +29,7 @@ const Temperature = () => {
     setShow(false);
     axios
       .get(
-        "http://b8c986bd9809.ngrok.io/api/temperatures/filter/" +
+        "http://63015d61dfdb.ngrok.io/api/temperatures/filter/" +
           selectedDate.toDateString()
       )
       .then((response) => {

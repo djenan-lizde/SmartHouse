@@ -9,10 +9,5 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
-
-        //home address table
-        public int CityId { get; set; }
-        public string Street { get; set; }
-        public bool Active { get; set; }
     }
 }

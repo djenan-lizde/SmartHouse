@@ -10,9 +10,7 @@ namespace SmartHouse.Api.Database
         {
         }
         public DbSet<Temperature> Temperatures { get; set; }
-        public DbSet<HomeAddress> HomeAddresses { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<City> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

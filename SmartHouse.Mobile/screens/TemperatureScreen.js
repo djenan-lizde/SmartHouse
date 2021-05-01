@@ -9,7 +9,7 @@ const TemperatureScreen = () => {
 
   useEffect(() => {
     axios
-      .get("http://b8c986bd9809.ngrok.io/api/temperatures/current")
+      .get("http://63015d61dfdb.ngrok.io/api/temperatures/current")
       .then((response) => {
         if (response.status == 404) {
           

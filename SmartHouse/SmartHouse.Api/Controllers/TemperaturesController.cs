@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
 using SmartHouse.Models.Responses;
@@ -67,12 +68,20 @@ namespace SmartHouse.Api.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult PostTemeprature([FromBody] Temperature temperature)
+        [HttpGet("{temperatureCelsius}/{temperatureFahrenheit}/{humidity}/{heatIndex}")]
+        public IActionResult AddTemeprature([FromRoute]int temperatureCelsius, [FromRoute] int temperatureFahrenheit, [FromRoute] int humidity, [FromRoute] int heatIndex)
         {
             try
             {
-                return Ok(_temperatureService.Insert(temperature));
+                var temprature = new Temperature
+                {
+                    DateAdded = DateTime.UtcNow,
+                    TemperatureCelsius = temperatureCelsius,
+                    HeatIndex = heatIndex,
+                    Humidity = humidity,
+                    TemperatureFahrenheit = temperatureFahrenheit
+                };
+                return Ok(_temperatureService.Insert(temprature));
             }
             catch (Exception)
             {

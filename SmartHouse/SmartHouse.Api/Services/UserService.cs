@@ -14,13 +14,13 @@ using System.Text;
 
 namespace SmartHouse.Api.Services
 {
-    public interface IUserService : IData<User>
+    public interface IUserService : IBaseService<User>
     {
         UserAuthenticationResult Authenticate(UserLoginModel model);
         User RegisterUser(UserRegistration user);
     }
 
-    public class UserService : Data<User>, IUserService
+    public class UserService : BaseService<User>, IUserService
     {
         private readonly IOptions<AppSettings> _options;
         public UserService(ApplicationDbContext context, IOptions<AppSettings> options) : base(context)

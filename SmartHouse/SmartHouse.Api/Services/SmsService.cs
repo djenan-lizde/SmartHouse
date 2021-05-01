@@ -28,7 +28,7 @@ namespace SmartHouse.Api.Services
             var to = new PhoneNumber(_options.Value.PhoneNumberTo);
 
             var message = MessageResource.Create(
-                body: "Kako je Armando?",
+                body: "There could be gas leak or fire starting. Please check your house or call emergency number.",
                 from: from,
                 to: to
             );

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SmartHouse.Api.Services
 {
-    public interface IData<T> where T : class
+    public interface IBaseService<T> where T : class
     {
         IEnumerable<T> Get();
         IEnumerable<T> GetByCondition(Expression<Func<T, bool>> predicate);
@@ -15,12 +15,12 @@ namespace SmartHouse.Api.Services
         T GetLastT();
     }
 
-    public class Data<T> : IData<T> where T : class
+    public class BaseService<T> : IBaseService<T> where T : class
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _entity;
 
-        public Data(ApplicationDbContext context)
+        public BaseService(ApplicationDbContext context)
         {
             _context = context;
             _entity = context.Set<T>();

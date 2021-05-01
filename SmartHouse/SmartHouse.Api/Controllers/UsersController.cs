@@ -11,13 +11,10 @@ namespace SmartHouse.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IHomeAddressService _homeAddressService;
 
-        public UsersController(IUserService userService,
-            IHomeAddressService homeAddressService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
-            _homeAddressService = homeAddressService;
         }
 
         [HttpPost("registration")]
@@ -35,14 +32,6 @@ namespace SmartHouse.Api.Controllers
                 JoinDate = obj.JoinDate,
                 PhoneNumber = obj.PhoneNumber
             };
-            var homeAddress = new HomeAddress
-            {
-                Active = true,
-                CityId = userRequest.CityId,
-                Street = userRequest.Street,
-                UserId = user.Id
-            };
-            _homeAddressService.Insert(homeAddress);
             return user;
         }
 

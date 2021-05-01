@@ -34,6 +34,17 @@ namespace SmartHouse.Api
                  options.UseSqlServer(
                  Configuration.GetConnectionString("SmartHouse")));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                  builder =>
+                  {
+                      builder.AllowAnyOrigin()
+                             .AllowAnyMethod()
+                             .AllowAnyHeader();
+                  });
+            });
+
             services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
             services.Configure<TwilioConfig>(Configuration.GetSection(nameof(TwilioConfig)));
 
@@ -75,7 +86,6 @@ namespace SmartHouse.Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISmsService, SmsService>();
             services.AddScoped<ITemperatureService, TemperatureService>();
-            services.AddScoped<IHomeAddressService, HomeAddressService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +97,7 @@ namespace SmartHouse.Api
             }
 
             app.UseRouting();
+            app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
 
