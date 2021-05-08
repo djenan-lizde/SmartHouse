@@ -29,7 +29,7 @@ const Temperature = () => {
     setShow(false);
     axios
       .get(
-        "http://63015d61dfdb.ngrok.io/api/temperatures/filter/" +
+        "https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/filter/" +
           selectedDate.toDateString()
       )
       .then((response) => {

@@ -147,7 +147,7 @@ const App = () => {
   const loginHandler = () => {
     setLoading(true);
     axios
-      .post("http://63015d61dfdb.ngrok.io/api/users/login", {
+      .post("https://smarthouseapi20210508183300.azurewebsites.net/api/users/login", {
         username: enteredUsername,
         password: enteredPassword,
       })
