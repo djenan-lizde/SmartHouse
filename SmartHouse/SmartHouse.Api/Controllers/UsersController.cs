@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
 using SmartHouse.Models.Requests;
+using System;
 
 namespace SmartHouse.Api.Controllers
 {
@@ -19,34 +20,48 @@ namespace SmartHouse.Api.Controllers
 
         [HttpPost("registration")]
         [AllowAnonymous]
-        public User UserRegister([FromBody] UserRegistration userRequest)
+        public IActionResult UserRegister([FromBody] UserRegistration userRequest)
         {
-            var obj = _userService.RegisterUser(userRequest);
-            User user = new User
+            try
             {
-                Id = obj.Id,
-                Username = obj.Username,
-                Email = obj.Email,
-                LastName = obj.LastName,
-                FirstName = obj.FirstName,
-                JoinDate = obj.JoinDate,
-                PhoneNumber = obj.PhoneNumber
-            };
-            return user;
+                var obj = _userService.RegisterUser(userRequest);
+                User user = new User
+                {
+                    Id = obj.Id,
+                    Username = obj.Username,
+                    Email = obj.Email,
+                    LastName = obj.LastName,
+                    FirstName = obj.FirstName,
+                    JoinDate = obj.JoinDate,
+                    PhoneNumber = obj.PhoneNumber
+                };
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult Login([FromBody] UserLoginModel model)
         {
-            var user = _userService.Authenticate(model);
-
-            if (user == null)
+            try
             {
-                return BadRequest(new { message = "Invalid username or password" });
-            }
+                var user = _userService.Authenticate(model);
 
-            return Ok(user);
+                if (user == null)
+                {
+                    return BadRequest(new { message = "Invalid username or password" });
+                }
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }

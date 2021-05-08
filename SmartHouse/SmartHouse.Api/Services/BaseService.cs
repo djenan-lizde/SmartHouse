@@ -31,7 +31,7 @@ namespace SmartHouse.Api.Services
             var obj = _entity.AsNoTracking().AsEnumerable();
             if (obj == null)
             {
-                throw new ArgumentNullException("Entity");
+                return null;
             }
             return obj;
         }
@@ -46,7 +46,7 @@ namespace SmartHouse.Api.Services
             var obj = _entity.ToList().LastOrDefault();
             if (obj == null)
             {
-                throw new ArgumentNullException("Entity");
+                return null;
             }
             return obj;
         }
@@ -55,7 +55,7 @@ namespace SmartHouse.Api.Services
         {
             if (obj == null)
             {
-                throw new ArgumentNullException("Entity");
+                return null;
             }
 
             var x = _entity.Add(obj);

@@ -49,9 +49,9 @@ namespace SmartHouse.Api.Controllers
 
                 return Ok(temperatureResult);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
@@ -62,9 +62,9 @@ namespace SmartHouse.Api.Controllers
             {
                 return Ok(_temperatureService.GetLastT());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
 
@@ -83,9 +83,9 @@ namespace SmartHouse.Api.Controllers
                 };
                 return Ok(_temperatureService.Insert(temprature));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex);
             }
         }
     }

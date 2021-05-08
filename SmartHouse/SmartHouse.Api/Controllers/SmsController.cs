@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
+using System;
 
 namespace SmartHouse.Api.Controllers
 {
@@ -18,8 +19,15 @@ namespace SmartHouse.Api.Controllers
         [AllowAnonymous]
         public IActionResult SendSms()
         {
-            var message = _smsService.SendSms();
-            return Content(message.Sid);
+            try
+            {
+                var message = _smsService.SendSms();
+                return Ok(Content(message.Sid));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }
