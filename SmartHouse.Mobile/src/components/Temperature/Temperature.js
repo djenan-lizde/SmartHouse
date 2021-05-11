@@ -88,7 +88,7 @@ const Temperature = () => {
           </View>
         ) : (
           <View>
-            <Text>No</Text>
+            <Text>There is no data to show!</Text>
           </View>
         )}
       </View>

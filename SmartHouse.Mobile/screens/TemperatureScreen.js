@@ -11,9 +11,6 @@ const TemperatureScreen = () => {
     axios
       .get("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/current")
       .then((response) => {
-        if (response.status == 404) {
-          
-        }
         setLoading(false);
         setTemperature(response.data.temperatureCelsius);
       })

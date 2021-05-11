@@ -152,9 +152,11 @@ const App = () => {
         password: enteredPassword,
       })
       .then((response) => {
-        setAuthorized(true);
+        if(response.status == 200){
+          setAuthorized(true);
+          navigation.navigate("HomeScreen");
+        }
         setLoading(false);
-        navigation.navigate("HomeScreen");
       })
       .catch((error) => console.log(error));
   };

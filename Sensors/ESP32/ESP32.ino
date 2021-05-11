@@ -54,9 +54,7 @@ void loop() {
   gas();
 
   if (WiFi.status() == WL_CONNECTED) {
-
-    httpsClient.begin("http://07cf14517b45.ngrok.io/api/temperatures/" + String(temperatureCelsius) + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex)); //Specify destination for HTTP request
-
+    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius) + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
     httpsClient.GET();
   }
 }
@@ -81,9 +79,7 @@ void gas() {
   if (gassensorAnalog > 300) {
     openWindow();
     if (WiFi.status() == WL_CONNECTED) {
-
-      httpsClient.begin("http://07cf14517b45.ngrok.io/api/sms/sendsms"); //Specify destination for HTTP request
-
+      httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/sms/sendsms");
       httpsClient.GET();
     }
     Serial.println(gassensorAnalog);
