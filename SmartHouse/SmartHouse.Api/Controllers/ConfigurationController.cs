@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
+using SmartHouse.Models.Models;
 using System;
 
 namespace SmartHouse.Api.Controllers
@@ -17,7 +18,7 @@ namespace SmartHouse.Api.Controllers
         }
 
         [HttpPost("save")]
-        public IActionResult InsertConfig(Models.Models.Configuration config)
+        public IActionResult InsertConfig([FromBody] Models.Models.Configuration config)
         {
             try
             {
