@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SmartHouse.Api.Services;
 using SmartHouse.Models.Models;
 using SmartHouse.Models.Responses;

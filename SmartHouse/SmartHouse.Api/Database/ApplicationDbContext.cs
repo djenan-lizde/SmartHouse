@@ -11,6 +11,7 @@ namespace SmartHouse.Api.Database
         }
         public DbSet<Temperature> Temperatures { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Models.Models.Configuration> Configurations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

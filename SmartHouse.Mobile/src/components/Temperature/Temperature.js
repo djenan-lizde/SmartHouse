@@ -63,10 +63,10 @@ const Temperature = () => {
         {showTemp ? (
           <View style={styles.averageTempContainer}>
             <Text>
-              Average temperature celsius: {temperature.celAvgTemperature}°C
+              Average temperature celsius: {temperature.celAvgTemperature.toFixed(2)}°C
             </Text>
             <Text>
-              Average temperature fahrenheit: {temperature.fahAvgTemperature}°F
+              Average temperature fahrenheit: {temperature.fahAvgTemperature.toFixed(2)}°F
             </Text>
             <Table borderStyle={{ borderWidth: 1 }}>
               <Row
