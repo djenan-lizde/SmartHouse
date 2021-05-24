@@ -10,7 +10,8 @@
 
 int Gas_analog = 4;    // used for ESP32
 int servoPin = 26;
-int pos = 0, humidity, heatIndex, temperatureFahrenheit, temperatureCelsius;  // variable to store the servo position
+int pos = 0, humidity, heatIndex, temperatureFahrenheit, temperatureCelsius, tempConfig;  // variable to store the servo position
+bool isWindowOpen = false;
 
 const char* ssid     = "Trio Fantastico";
 const char* password = "thisisapassword2019$";
@@ -50,6 +51,15 @@ void loop() {
   // Wait a few seconds between measurements.
   delay(2000);
 
+  if (WiFi.status() == WL_CONNECTED) {
+    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/configuration/current");
+    httpsClient.GET();
+    String payload = httpsClient.getString();
+    StaticJsonDocument<200> jsonDoc;
+    DeserializationError error = deserializeJson(jsonDoc, payload);
+    tempConfig = jsonDoc["temperatureCelsius"];
+  }
+
   temperature();
   gas();
 
@@ -76,17 +86,20 @@ void closeWindow() {
 void gas() {
   int gassensorAnalog = analogRead(Gas_analog);
 
-  if (gassensorAnalog > 300) {
+  if (gassensorAnalog > 300 && isWindowOpen == false) {
     openWindow();
     if (WiFi.status() == WL_CONNECTED) {
       httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/sms/sendsms");
       httpsClient.GET();
+      isWindowOpen = true;
     }
     Serial.println(gassensorAnalog);
   }
-  else if (gassensorAnalog == 0) {
+
+  if (gassensorAnalog < 300 && isWindowOpen == true) {
     closeWindow();
     Serial.println(gassensorAnalog);
+    isWindowOpen = false;
   }
 }
 
@@ -102,6 +115,16 @@ void temperature() {
   if (isnan(humidity) || isnan(temperatureCelsius) || isnan(temperatureFahrenheit) || isnan(heatIndex)) {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
+  }
+
+  if (temperatureCelsius > tempConfig && isWindowOpen == false) {
+    openWindow();
+    isWindowOpen = true;
+  }
+
+  if (temperatureCelsius < tempConfig && isWindowOpen == true) {
+    closeWindow();
+    isWindowOpen = false;
   }
 
   StaticJsonDocument<1024> doc;
