@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Toast from "react-native-toast-message";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -147,18 +148,31 @@ const App = () => {
   const loginHandler = () => {
     setLoading(true);
     axios
-      .post("https://smarthouseapi20210508183300.azurewebsites.net/api/users/login", {
-        username: enteredUsername,
-        password: enteredPassword,
-      })
+      .post(
+        "https://smarthouseapi20210508183300.azurewebsites.net/api/users/login",
+        {
+          username: enteredUsername,
+          password: enteredPassword,
+        }
+      )
       .then((response) => {
-        if(response.status == 200){
+        if (response.status == 200) {
           setAuthorized(true);
           navigation.navigate("HomeScreen");
         }
         setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        Toast.show({
+          type:"error",
+          text1: "Error!",
+          text2: "Wrong username or password. Try again!",
+          position: "top",
+          visibilityTime: 5000,
+          autoHide: true,
+        });
+        setLoading(false);
+      });
   };
 
   const usernameHandler = (val) => {
@@ -177,7 +191,10 @@ const App = () => {
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="Home">
             <Drawer.Screen name="Home" component={HomeStackScreen} />
-            <Drawer.Screen name="Temperature" component={TemperatureStackScreen}/>
+            <Drawer.Screen
+              name="Temperature"
+              component={TemperatureStackScreen}
+            />
             <Drawer.Screen name="Photos" component={PhotoStackScreen} />
             <Drawer.Screen name="About us" component={AboutUsStackScreen} />
           </Drawer.Navigator>
@@ -190,6 +207,7 @@ const App = () => {
           login={() => loginHandler()}
         />
       )}
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </>
   );
 };

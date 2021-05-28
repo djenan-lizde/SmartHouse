@@ -64,7 +64,8 @@ void loop() {
   gas();
 
   if (WiFi.status() == WL_CONNECTED) {
-    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius) + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
+    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius)
+                      + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
     httpsClient.GET();
   }
 }

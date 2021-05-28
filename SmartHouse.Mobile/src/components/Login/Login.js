@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Image, SafeAreaView, ActivityIndicator, Text} from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+  ActivityIndicator,
+  Text,
+} from "react-native";
 import LoginForm from "./LoginForm";
 
 const Login = (props) => {
@@ -38,14 +45,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
-  formContainer:{
-    marginBottom:30
+  formContainer: {
+    marginBottom: 30,
   },
-  header:{
-    fontSize:35,
-    color:"#FFF",
-    marginBottom:10
-  }
+  header: {
+    fontSize: 35,
+    color: "#FFF",
+    marginBottom: 10,
+  },
 });
 
 export default Login;

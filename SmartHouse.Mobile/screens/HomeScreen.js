@@ -10,6 +10,7 @@ import {
   Button,
 } from "react-native";
 import axios from "axios";
+import Toast from "react-native-toast-message";
 
 const HomeScreen = () => {
   const [tempCelsius, setTempCelsius] = useState(0);
@@ -23,14 +24,33 @@ const HomeScreen = () => {
 
   const configHandler = () => {
     axios
-      .post("https://smarthouseapi20210508183300.azurewebsites.net/api/configuration/save", {
+      .post(
+        "https://smarthouseapi20210508183300.azurewebsites.net/api/configuration/save",
+        {
           temperatureCelsius: parseInt(tempCelsius),
           temperatureFahrenheit: tempFahrenheit,
-        })
+        }
+      )
       .then((response) => {
-        console.log(response);
+        Toast.show({
+          type: "info",
+          text1: "Information",
+          text2: "Configuration saved!",
+          position: "top",
+          visibilityTime: 5000,
+          autoHide: true,
+        });
       })
-      .catch((error) => console.log(error.response));
+      .catch((error) => {
+        Toast.show({
+          type: "error",
+          text1: "Error!",
+          text2: "Something went wrong!",
+          position: "top",
+          visibilityTime: 5000,
+          autoHide: true,
+        });
+      });
   };
 
   return (

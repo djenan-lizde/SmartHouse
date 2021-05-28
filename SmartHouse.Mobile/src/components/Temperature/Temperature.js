@@ -10,6 +10,8 @@ import {
 import axios from "axios";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Table, Row } from "react-native-table-component";
+import { ScrollView } from "react-native-gesture-handler";
+import Toast from "react-native-toast-message";
 
 const Temperature = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +39,6 @@ const Temperature = () => {
         setShowTemp(true);
       })
       .catch((error) => {
-        console.log(error);
         setTemperatureInfo(initialState);
         setShowTemp(false);
       });
@@ -48,60 +49,64 @@ const Temperature = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {isLoading && <ActivityIndicator size="large" color="green" />}
-      <View style={styles.formContainer}>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            is24Hour={false}
-            display="default"
-            onChange={onChange}
-          />
-        )}
-        {showTemp ? (
-          <View style={styles.averageTempContainer}>
-            <Text>
-              Average temperature celsius: {temperature.celAvgTemperature.toFixed(2)}°C
-            </Text>
-            <Text>
-              Average temperature fahrenheit: {temperature.fahAvgTemperature.toFixed(2)}°F
-            </Text>
-            <Table borderStyle={{ borderWidth: 1 }}>
-              <Row
-                data={tableHead}
-                style={styles.head}
-                textStyle={styles.text}
-              />
-              {temperature.temperatures.map((x) => (
+    <>
+      <SafeAreaView style={styles.container}>
+        {isLoading && <ActivityIndicator size="large" color="green" />}
+        <View style={styles.formContainer}>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              is24Hour={false}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+          {showTemp ? (
+            <ScrollView style={styles.averageTempContainer}>
+              <Text textStyle={styles.text}>
+                Average temperature celsius:{" "}
+                {temperature.celAvgTemperature.toFixed(2)}°C
+              </Text>
+              <Text textStyle={styles.text}>
+                Average temperature fahrenheit:{" "}
+                {temperature.fahAvgTemperature.toFixed(2)}°F
+              </Text>
+              <Table borderStyle={{ borderWidth: 1 }}>
                 <Row
-                  key={x.id}
-                  data={[
-                    x.temperatureCelsius,
-                    x.temperatureFahrenheit,
-                    new Date(x.dateAdded).getHours(),
-                  ]}
-                ></Row>
-              ))}
-            </Table>
-          </View>
-        ) : (
-          <View>
-            <Text>There is no data to show!</Text>
-          </View>
-        )}
-      </View>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <Button
-          style={styles.buttonText}
-          onPress={showDatepicker}
-          title="Show date picker!"
-        >
-          Show picker
-        </Button>
-      </TouchableOpacity>
-    </SafeAreaView>
+                  data={tableHead}
+                  style={styles.head}
+                  textStyle={styles.text}
+                />
+                {temperature.temperatures.map((x) => (
+                  <Row
+                    key={x.id}
+                    data={[
+                      x.temperatureCelsius,
+                      x.temperatureFahrenheit,
+                      new Date(x.dateAdded).getHours(),
+                    ]}
+                  ></Row>
+                ))}
+              </Table>
+            </ScrollView>
+          ) : (
+            <View>
+              <Text>There is no data to show!</Text>
+            </View>
+          )}
+        </View>
+        <TouchableOpacity style={styles.buttonContainer}>
+          <Button
+            style={styles.buttonText}
+            onPress={showDatepicker}
+            title="Show date picker!"
+          >
+            Show picker
+          </Button>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -131,6 +136,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     fontSize: 20,
   },
-  head: { height: 40, backgroundColor: "#f1f8ff" },
-  text: { margin: 6 },
+  head: { height: 40, backgroundColor: "#f1f8ff", textAlign: "center" },
+  text: { margin: 6, textAlign: "center" },
 });

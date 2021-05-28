@@ -9,12 +9,16 @@ const TemperatureScreen = () => {
 
   useEffect(() => {
     axios
-      .get("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/current")
+      .get(
+        "https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/current"
+      )
       .then((response) => {
         setLoading(false);
         setTemperature(response.data.temperatureCelsius);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+      });
   });
 
   return (
