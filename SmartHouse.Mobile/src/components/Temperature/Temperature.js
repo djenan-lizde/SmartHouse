@@ -11,7 +11,6 @@ import axios from "axios";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Table, Row } from "react-native-table-component";
 import { ScrollView } from "react-native-gesture-handler";
-import Toast from "react-native-toast-message";
 
 const Temperature = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +23,7 @@ const Temperature = () => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [showTemp, setShowTemp] = useState(false);
-  const [tableHead, setTableHead] = useState(["Celsius", "Fahrenheit", "Hour"]);
+  const [tableHead, setTableHead] = useState(["Celsius (°C)", "Fahrenheit (°F)", "Hour"]);
 
   const onChange = (event, selectedDate) => {
     setDate(selectedDate);
@@ -63,8 +62,8 @@ const Temperature = () => {
             />
           )}
           {showTemp ? (
-            <ScrollView style={styles.averageTempContainer}>
-              <Text textStyle={styles.text}>
+            <>
+              <Text textStyle={styles.text} style={{marginBottom: 10}}>
                 Average temperature celsius:{" "}
                 {temperature.celAvgTemperature.toFixed(2)}°C
               </Text>
@@ -72,7 +71,8 @@ const Temperature = () => {
                 Average temperature fahrenheit:{" "}
                 {temperature.fahAvgTemperature.toFixed(2)}°F
               </Text>
-              <Table borderStyle={{ borderWidth: 1 }}>
+            <ScrollView style={styles.averageTempContainer}>
+              <Table borderStyle={{ borderWidth: 1 }} style={{ marginTop: 20}}>
                 <Row
                   data={tableHead}
                   style={styles.head}
@@ -80,6 +80,7 @@ const Temperature = () => {
                 />
                 {temperature.temperatures.map((x) => (
                   <Row
+                    textStyle={styles.text}
                     key={x.id}
                     data={[
                       x.temperatureCelsius,
@@ -90,6 +91,7 @@ const Temperature = () => {
                 ))}
               </Table>
             </ScrollView>
+            </>
           ) : (
             <View>
               <Text>There is no data to show!</Text>
@@ -135,7 +137,8 @@ const styles = StyleSheet.create({
   averageTempContainer: {
     marginBottom: 40,
     fontSize: 20,
+    width: "85%"
   },
-  head: { height: 40, backgroundColor: "#f1f8ff", textAlign: "center" },
+  head: { height: 40, backgroundColor: "#f1f8ff" },
   text: { margin: 6, textAlign: "center" },
 });

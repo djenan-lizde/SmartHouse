@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import LoginForm from "./LoginForm";
+import Logo from '../../../assets/house.jpg';
 
 const Login = (props) => {
   return (
@@ -16,7 +17,7 @@ const Login = (props) => {
         <Text style={styles.header}>Smart house</Text>
         <Image
           style={styles.logo}
-          source={require("../../../assets/house.jpg")}
+          source={Logo}
         />
       </View>
       {props.loading ? <ActivityIndicator size="large" color="white" /> : null}

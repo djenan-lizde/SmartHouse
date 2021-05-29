@@ -17,8 +17,32 @@ const HomeScreen = () => {
   const [tempFahrenheit, setTempFahrenheit] = useState(0);
 
   const temperatureHandler = (val) => {
-    setTempCelsius(val);
-    let fahreheit = val * 1.8 + 32;
+    if(isNaN(val)){
+      Toast.show({
+        type: "error",
+        text1: "Invalid value!",
+        text2: "Temperature must be a numeric value!",
+        position: "top",
+        visibilityTime: 5000,
+        autoHide: true,
+      });
+    }
+
+    const temp = parseFloat(val);
+
+    if(temp < 1  || temp > 55) {
+      Toast.show({
+        type: "error",
+        text1: "Invalid value!",
+        text2: "Temperature must be between 1 and 55 celsius degrees!",
+        position: "top",
+        visibilityTime: 5000,
+        autoHide: true,
+      });
+    }
+
+    setTempCelsius(temp);
+    let fahreheit = parseFloat(temp * 1.8 + 32);
     setTempFahrenheit(fahreheit);
   };
 
@@ -27,15 +51,15 @@ const HomeScreen = () => {
       .post(
         "https://smarthouseapi20210508183300.azurewebsites.net/api/configuration/save",
         {
-          temperatureCelsius: parseInt(tempCelsius),
+          temperatureCelsius: tempCelsius,
           temperatureFahrenheit: tempFahrenheit,
         }
       )
       .then((response) => {
         Toast.show({
-          type: "info",
-          text1: "Information",
-          text2: "Configuration saved!",
+          type: "success",
+          text1: "Configuration saved!",
+          text2: "System will respond at the configured temperature!",
           position: "top",
           visibilityTime: 5000,
           autoHide: true,
@@ -63,7 +87,8 @@ const HomeScreen = () => {
           <TextInput
             style={styles.input}
             keyboardType="numeric"
-            placeholder="Temperature value"
+            placeholder="Temperature treshold in Celsius"
+            placeholderTextColor="rgba(255,255,255,0.7)"
             returnKeyType="go"
             autoCorrect={false}
             onChangeText={(val) => temperatureHandler(val)}
@@ -111,8 +136,12 @@ const styles = StyleSheet.create({
     color: "#FFF",
     marginBottom: 10,
     textAlign: "center",
+    marginTop: 20
   },
   formContainer: {
     alignContent: "center",
+    padding: 40,
+    width:"90%",
+    alignSelf:"center"
   },
 });
