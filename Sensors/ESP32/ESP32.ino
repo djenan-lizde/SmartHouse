@@ -64,21 +64,20 @@ void loop() {
   gas();
 
   if (WiFi.status() == WL_CONNECTED) {
-    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius)
-                      + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
+    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius) + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
     httpsClient.GET();
   }
 }
 
 void openWindow() {
-  for (int posDegrees = 0; posDegrees <= 180; posDegrees++) {
+  for (int posDegrees = 0; posDegrees <= 90; posDegrees++) {
     servo1.write(posDegrees);
     delay(20);
   }
 }
 
 void closeWindow() {
-  for (int posDegrees = 180; posDegrees >= 0; posDegrees--) {
+  for (int posDegrees = 90; posDegrees >= 0; posDegrees--) {
     servo1.write(posDegrees);
     delay(20);
   }
