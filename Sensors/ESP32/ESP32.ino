@@ -7,8 +7,8 @@
 
 #define DHTPIN 14
 #define DHTTYPE DHT11   // DHT 11
+#define MQ2pin 34
 
-int Gas_analog = 4;    // used for ESP32
 int servoPin = 26;
 int pos = 0, humidity, heatIndex, temperatureFahrenheit, temperatureCelsius, tempConfig;  // variable to store the servo position
 bool isWindowOpen = false;
@@ -16,13 +16,15 @@ bool isWindowOpen = false;
 const char* ssid     = "Trio Fantastico";
 const char* password = "thisisapassword2019$";
 
+//const char* ssid = "bd3996";
+//const char* password = "286466916";
+
 DHT dht(DHTPIN, DHTTYPE);
 Servo servo1;
 HTTPClient httpsClient;
 
 void setup() {
   Serial.begin(115200);
-
   // We start by connecting to a WiFi network
 
   Serial.println();
@@ -45,11 +47,12 @@ void setup() {
   servo1.attach(servoPin);
   servo1.write(0);
   dht.begin();
+  delay(20000);
 }
 
 void loop() {
   // Wait a few seconds between measurements.
-  delay(2000);
+  delay(5000);
 
   if (WiFi.status() == WL_CONNECTED) {
     httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/configuration/current");
@@ -62,11 +65,6 @@ void loop() {
 
   temperature();
   gas();
-
-  if (WiFi.status() == WL_CONNECTED) {
-    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius) + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
-    httpsClient.GET();
-  }
 }
 
 void openWindow() {
@@ -84,22 +82,24 @@ void closeWindow() {
 }
 
 void gas() {
-  int gassensorAnalog = analogRead(Gas_analog);
+  int gassensorAnalog = analogRead(MQ2pin);
 
-  if (gassensorAnalog > 300 && isWindowOpen == false) {
+  if (gassensorAnalog >= 1000 && isWindowOpen == false) {
     openWindow();
     if (WiFi.status() == WL_CONNECTED) {
       httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/sms/sendsms");
       httpsClient.GET();
       isWindowOpen = true;
     }
+    Serial.println("Message sent!!!!");
+    Serial.print("Value: ");
     Serial.println(gassensorAnalog);
   }
 
-  if (gassensorAnalog < 300 && isWindowOpen == true) {
+  if (gassensorAnalog < 1000 && isWindowOpen == true) {
     closeWindow();
-    Serial.println(gassensorAnalog);
     isWindowOpen = false;
+    Serial.println(gassensorAnalog);
   }
 }
 
@@ -117,7 +117,7 @@ void temperature() {
     return;
   }
 
-  if (temperatureCelsius > tempConfig && isWindowOpen == false) {
+  if (temperatureCelsius >= tempConfig && isWindowOpen == false) {
     openWindow();
     isWindowOpen = true;
   }
@@ -134,4 +134,9 @@ void temperature() {
   doc["heatIndex"] = heatIndex;
 
   serializeJsonPretty(doc, Serial);
+
+  if (WiFi.status() == WL_CONNECTED) {
+    httpsClient.begin("https://smarthouseapi20210508183300.azurewebsites.net/api/temperatures/" + String(temperatureCelsius) + "/" + String(temperatureFahrenheit) + "/" + String(humidity) + "/" + String(heatIndex));
+    httpsClient.GET();
+  }
 }

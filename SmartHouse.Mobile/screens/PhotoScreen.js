@@ -1,20 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import Arduino from '../assets/Arduino.jpg';
+import SmartHouseSystem from '../assets/SmartHouseSystem.jpg';
 import ESP32 from '../assets/ESP32.jpg';
 
 const PhotoScreen = () => {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Arduino uno - PIR sensor</Text>
-        <Image
-          style={styles.logo}
-          source={Arduino}
-        />
         <Text style={styles.text}>ESP32 Wroom - DHT11, Servo</Text>
         <Image
           style={styles.logo}
           source={ESP32}
+        />
+        <Text style={styles.text}>Smart house - system</Text>
+        <Image
+          style={styles.logo}
+          source={SmartHouseSystem}
         />
       </View>
     );
